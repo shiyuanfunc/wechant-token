@@ -1,0 +1,22 @@
+
+server:
+  port: 51230
+
+# 企微配置
+wechat:
+  config:
+    corp-id: wwd9033b37c6e802bf
+    corp-secret: rWGZwA8OMYRSbHQB9IBkA8zEytuvDnxRNpbu11RmdPg
+
+
+spring:
+  application:
+    name: wechat-token
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: 10000ms
+
