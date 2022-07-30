@@ -1,6 +1,7 @@
 package com.shiyuanfunc.wechat.token.crawler;
 
 import com.alibaba.fastjson.JSONObject;
+import com.shiyuanfunc.wechat.token.manage.CrawlerManager;
 import com.shiyuanfunc.wechat.token.manage.SendMessageManage;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 /**
  * @Author MUSI
@@ -35,6 +37,8 @@ public class CrawlerUtil {
     }
 
     public static void crawlerWithUrl(String url) {
+
+        SendMessageManage.sendMessageTelegram("获取什么值得买好价推荐数据, 时间: " + LocalDateTime.now().format(CrawlerManager.formatter));
         try {
             Document document = Jsoup.connect(url).get();
             Elements elements = document.select(".feed-block");

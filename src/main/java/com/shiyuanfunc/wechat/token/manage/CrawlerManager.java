@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class CrawlerManager {
 
-    private static final  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     public void crawler_jingxuan(){
         long startTime = System.currentTimeMillis();
         log.info("crawler_jingxuan execute time:{} >>>>>> ", LocalDateTime.now().format(formatter));
