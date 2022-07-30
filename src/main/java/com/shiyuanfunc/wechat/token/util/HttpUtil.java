@@ -134,7 +134,7 @@ public class HttpUtil {
                 return JSONObject.parseObject(body.string(), clz);
             }
         }catch (Exception ex){
-
+            log.error("doPost request error", ex);
         }
         return null;
     }
