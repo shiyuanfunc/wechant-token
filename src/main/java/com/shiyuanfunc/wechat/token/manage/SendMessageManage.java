@@ -22,6 +22,5 @@ public class SendMessageManage {
         params.put("chat_id", "-737850981");
         params.put("text", json);
         JSONObject jsonObject = HttpUtil.proxyPost(sendMessage, params, JSONObject.class);
-        System.out.println(jsonObject.toJSONString());
     }
 }
