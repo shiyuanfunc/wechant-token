@@ -45,7 +45,7 @@ public class HttpUtil {
     }
 
     private static void initProxyClient(){
-        InetSocketAddress inetSocketAddress = new InetSocketAddress("192.168.31.65", 1087);
+        InetSocketAddress inetSocketAddress = new InetSocketAddress("127.0.0.1", 1087);
         Proxy proxy = new Proxy(Proxy.Type.HTTP, inetSocketAddress);
         proxyClient = new OkHttpClient.Builder()
                 .callTimeout(Duration.ofSeconds(10))
