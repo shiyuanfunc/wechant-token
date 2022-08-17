@@ -25,7 +25,7 @@ public class ElasticSearchServiceTest {
     @Test
     public void saveIndex(){
         RecommendInfo recommendInfo = new RecommendInfo();
-        recommendInfo.setBrand("天猫测试22");
+        recommendInfo.setBrand("这是一段文案 时间: 23:27");
         recommendInfo.setTime(new Date());
         IndexRequest<RecommendInfo> indexRequest = new IndexRequest.Builder<RecommendInfo>()
                 .index("recommend_info")
