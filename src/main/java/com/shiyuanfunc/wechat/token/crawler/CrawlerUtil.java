@@ -17,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @Author MUSI
@@ -102,8 +103,9 @@ public class CrawlerUtil {
                 });
                 if (!jsonObject.isEmpty()) {
                     log.info(jsonObject.toJSONString());
-                    RecommendInfo recommendInfo = JSON.parseObject(jsonObject.toJSONString(), RecommendInfo.class);
                     SendMessageManage.sendMessageTelegram(jsonObject.toJSONString());
+                    RecommendInfo recommendInfo = JSON.parseObject(jsonObject.toJSONString(), RecommendInfo.class);
+                    recommendInfo.setTime(new Date());
                     save(recommendInfo);
                 }
                 log.info("######################");

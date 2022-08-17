@@ -1,10 +1,12 @@
 package com.shiyuanfunc.wechat.token;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @Author MUSI
@@ -31,4 +33,7 @@ public class RecommendInfo implements Serializable {
     private String timeStr;
 
     private String brand;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date time;
 }
