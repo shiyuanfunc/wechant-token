@@ -13,10 +13,14 @@ spring:
   application:
     name: wechat-token
   redis:
-    host: 127.0.0.1
+    host: 192.168.31.65
     port: 6379
     lettuce:
       pool:
         max-active: 8
         max-wait: 10000ms
+
+  elasticsearch:
+    rest:
+      uris: http://192.168.31.65:9200
 

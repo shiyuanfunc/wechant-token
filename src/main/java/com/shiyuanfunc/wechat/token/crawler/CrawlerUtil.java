@@ -1,7 +1,11 @@
 package com.shiyuanfunc.wechat.token.crawler;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.shiyuanfunc.wechat.token.RecommendInfo;
+import com.shiyuanfunc.wechat.token.config.SpringContextUtil;
 import com.shiyuanfunc.wechat.token.manage.CrawlerManager;
+import com.shiyuanfunc.wechat.token.manage.ElasticSearchManager;
 import com.shiyuanfunc.wechat.token.manage.SendMessageManage;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +13,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.BeanUtils;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -77,7 +82,7 @@ public class CrawlerUtil {
                                 if (child.hasClass("feed-block-descripe")) {
                                     // 描述
                                     String descripe = child.text();
-                                    jsonObject.put("descripe", descripe);
+                                    jsonObject.put("describe", descripe);
                                 }
                                 if (child.hasClass("z-feed-foot")) {
                                     // 附加信息
@@ -97,12 +102,19 @@ public class CrawlerUtil {
                 });
                 if (!jsonObject.isEmpty()) {
                     log.info(jsonObject.toJSONString());
+                    RecommendInfo recommendInfo = JSON.parseObject(jsonObject.toJSONString(), RecommendInfo.class);
                     SendMessageManage.sendMessageTelegram(jsonObject.toJSONString());
+                    save(recommendInfo);
                 }
                 log.info("######################");
             }
         } catch (Exception ex) {
             log.error("解析url:{}", url, ex);
         }
+    }
+
+    private static void save(RecommendInfo recommendInfo){
+        ElasticSearchManager elasticSearchManager = SpringContextUtil.getBean(ElasticSearchManager.class);
+        elasticSearchManager.save(recommendInfo, "recommend_info");
     }
 }

@@ -16,5 +16,8 @@ public class Test {
         map.put("ss", 1);
         Integer ssss = (Integer) map.get("ssss");
         System.out.println(ssss);
+
+
+        System.out.println( (true && true || false )&& false);
     }
 }
