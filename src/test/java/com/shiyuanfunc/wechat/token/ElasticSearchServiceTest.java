@@ -2,12 +2,15 @@ package com.shiyuanfunc.wechat.token;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.IndexRequest;
+import com.alibaba.fastjson.JSON;
+import com.shiyuanfunc.wechat.token.manage.ElasticSearchManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author MUSI
@@ -20,6 +23,8 @@ public class ElasticSearchServiceTest {
 
     @Autowired
     private ElasticsearchClient elasticsearchClient;
+    @Autowired
+    private ElasticSearchManager elasticSearchManager;
 
 
     @Test
@@ -36,6 +41,11 @@ public class ElasticSearchServiceTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    @Test
+    public void searchAll(){
+        List<RecommendInfo> recommend_info = elasticSearchManager.queryData("recommend_info", RecommendInfo.class);
+        System.out.println(JSON.toJSONString(recommend_info));
     }
 }
