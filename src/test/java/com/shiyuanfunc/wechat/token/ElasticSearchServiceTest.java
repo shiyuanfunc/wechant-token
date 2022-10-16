@@ -45,7 +45,19 @@ public class ElasticSearchServiceTest {
 
     @Test
     public void searchAll(){
-        List<RecommendInfo> recommend_info = elasticSearchManager.queryData("recommend_info", RecommendInfo.class);
-        System.out.println(JSON.toJSONString(recommend_info));
+        List<RecommendInfo> recommend_info = elasticSearchManager.queryData("recommend_info", RecommendInfo.class, 1, 8000);
+        System.out.println(recommend_info.size());
+
+        GoodsSkuInfo goodsSkuInfo = new GoodsSkuInfo();
+        goodsSkuInfo.setRecommondInfos(recommend_info);
+        elasticSearchManager.save(goodsSkuInfo, "goods_sku");
+    }
+
+    @Test
+    public void searchProductInfo(){
+
+        String indexName = "gh_8adf52effae7_product";
+        List<ProductDocDTO> productDocDTOS = elasticSearchManager.queryData(indexName, ProductDocDTO.class, 1, 10);
+        System.out.println(JSON.toJSONString(productDocDTOS));
     }
 }

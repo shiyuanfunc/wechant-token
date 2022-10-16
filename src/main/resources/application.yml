@@ -22,5 +22,8 @@ spring:
 
   elasticsearch:
     rest:
+#      uris: http://www.gicdev.com/test-es:80
+#      username: testes
+#      password: dmwl123
       uris: http://192.168.31.65:9200
 

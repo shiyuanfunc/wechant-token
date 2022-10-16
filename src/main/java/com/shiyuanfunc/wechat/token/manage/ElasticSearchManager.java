@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -49,7 +50,7 @@ public class ElasticSearchManager {
         }
     }
 
-    public <T> List<T> queryData(String indexName, Class<T> clz) {
+    public <T> List<T> queryData(String indexName, Class<T> clz, Integer from, Integer size) {
         try {
             SearchResponse<T> searchResponse = elasticsearchClient.search(
                     s -> s.index(indexName)
@@ -59,6 +60,8 @@ public class ElasticSearchManager {
                                                     .build()
                                     )
                             )
+                            .from(Optional.ofNullable(from).orElse(1))
+                            .size(Optional.ofNullable(size).orElse(10))
                     , clz
             );
             CountResponse count = elasticsearchClient.count(t -> t.index(indexName));
