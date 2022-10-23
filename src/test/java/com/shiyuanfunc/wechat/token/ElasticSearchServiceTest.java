@@ -4,11 +4,13 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.IndexRequest;
 import com.alibaba.fastjson.JSON;
 import com.shiyuanfunc.wechat.token.manage.ElasticSearchManager;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -59,5 +61,19 @@ public class ElasticSearchServiceTest {
         String indexName = "gh_8adf52effae7_product";
         List<ProductDocDTO> productDocDTOS = elasticSearchManager.queryData(indexName, ProductDocDTO.class, 1, 10);
         System.out.println(JSON.toJSONString(productDocDTOS));
+    }
+
+    @Test
+    public void saveMaxFieldLength(){
+        String indexName = "test_max_field_length";
+        ProductDocDTO productDocDTO = new ProductDocDTO();
+        String str = "0435e85b60b649909dc82714cb5411f3 TESTSK000763";
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            list.add(str);
+        }
+        String result = StringUtils.join(list, " ");
+        productDocDTO.setSkuIds(result);
+        elasticSearchManager.save(productDocDTO, indexName);
     }
 }
