@@ -17,6 +17,18 @@ public class TestOOM {
 
     private static final Integer size = 1024 * 1024;
 
+
+    private boolean show;
+
+
+    public boolean isShow() {
+        return show;
+    }
+
+    public void setShow(boolean show) {
+        this.show = show;
+    }
+
     public void oonTest(){
         ThreadLocalUtils.setDefault();
         List<String> list = new ArrayList<>();
