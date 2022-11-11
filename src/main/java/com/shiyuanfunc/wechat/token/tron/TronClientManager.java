@@ -85,7 +85,8 @@ public class TronClientManager {
 
         BigInteger transferAmount = Convert.toSun("0", Convert.Unit.TRX).toBigInteger();
         long l = Convert.toSun("10", Convert.Unit.TRX).longValue();
-        String transfer = token.transfer("TS4N8P4czcVZuKJBkdqPPmkqnHbgYTz9ig", transferAmount.longValue(), 0, "备注啊", l);
+        String remark = "beihu 98d10cb2ed5efbebd497ed7e6991595b8df1d46ba921f44d9e74dbd04c0db527";
+        String transfer = token.transfer("TS4N8P4czcVZuKJBkdqPPmkqnHbgYTz9ig", transferAmount.longValue(), 0, remark, l);
         return transfer;
     }
 

@@ -2,9 +2,6 @@ package com.shiyuanfunc.wechat.token.util;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
-import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
-import co.elastic.clients.elasticsearch._types.query_dsl.TermsQuery;
-import com.shiyuanfunc.wechat.token.ProductDocDTO;
 
 import java.beans.Introspector;
 import java.util.ArrayList;
@@ -48,12 +45,5 @@ public class SearchQueryWrapper {
 
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-        SearchQueryWrapper searchQueryWrapper = new SearchQueryWrapper();
-        searchQueryWrapper.eq(ProductDocDTO::getApplyType, 10);
-
-        System.out.println(Introspector.decapitalize("IsShow"));
     }
 }

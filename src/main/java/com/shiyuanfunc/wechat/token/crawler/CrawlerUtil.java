@@ -2,18 +2,16 @@ package com.shiyuanfunc.wechat.token.crawler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.shiyuanfunc.wechat.token.RecommendInfo;
+import com.shiyuanfunc.wechat.token.domain.recommend.RecommendInfo;
 import com.shiyuanfunc.wechat.token.config.SpringContextUtil;
 import com.shiyuanfunc.wechat.token.manage.CrawlerManager;
 import com.shiyuanfunc.wechat.token.manage.ElasticSearchManager;
 import com.shiyuanfunc.wechat.token.manage.SendMessageManage;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.BeanUtils;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

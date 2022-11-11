@@ -1,4 +1,4 @@
-package com.shiyuanfunc.wechat.token;
+package com.shiyuanfunc.wechat.token.domain.recommend;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

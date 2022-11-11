@@ -1,20 +1,16 @@
 package com.shiyuanfunc.wechat.token;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch._types.SortOptions;
 import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
-import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.TermsQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.TermsQueryField;
 import co.elastic.clients.elasticsearch.core.CountRequest;
 import co.elastic.clients.elasticsearch.core.CountResponse;
 import co.elastic.clients.elasticsearch.core.IndexRequest;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
-import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.alibaba.fastjson.JSON;
+import com.shiyuanfunc.wechat.token.domain.recommend.RecommendInfo;
 import com.shiyuanfunc.wechat.token.manage.ElasticSearchManager;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
@@ -71,28 +67,6 @@ public class ElasticSearchServiceTest {
             List<RecommendInfo> recommend_info = elasticSearchManager.queryData("recommend_info", RecommendInfo.class, randomInt, 100);
             System.out.println(recommend_info.size());
         }
-    }
-
-    @Test
-    public void searchProductInfo(){
-
-        String indexName = "gh_8adf52effae7_product";
-        List<ProductDocDTO> productDocDTOS = elasticSearchManager.queryData(indexName, ProductDocDTO.class, 1, 10);
-        System.out.println(JSON.toJSONString(productDocDTOS));
-    }
-
-    @Test
-    public void saveMaxFieldLength(){
-        String indexName = "test_max_field_length";
-        ProductDocDTO productDocDTO = new ProductDocDTO();
-        String str = "0435e85b60b649909dc82714cb5411f3 TESTSK000763";
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 10000; i++) {
-            list.add(str);
-        }
-        String result = StringUtils.join(list, " ");
-        productDocDTO.setSkuIds(result);
-        elasticSearchManager.save(productDocDTO, indexName);
     }
 
     @Test
