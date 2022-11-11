@@ -26,4 +26,10 @@ public class WechatTokenApplicationTests {
         }
     }
 
+    @Test
+    public void transferTrc20(){
+        Object o = tronClientManager.balanceOfAddress("TYuVKUAvXesMFJLLNiGEw5kWVzwkhEEoE5");
+        System.out.println(o.toString());
+    }
+
 }

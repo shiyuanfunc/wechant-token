@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @Author MUSI
@@ -28,4 +29,11 @@ public class TronAccountInfo implements Serializable {
     private String publicKey;
 
     private String tronAddress;
+
+    /**
+     * 用户id
+     */
+    private String userId;
+
+    private Date createTime;
 }
