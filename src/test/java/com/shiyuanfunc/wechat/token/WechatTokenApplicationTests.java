@@ -1,6 +1,6 @@
 package com.shiyuanfunc.wechat.token;
 
-import com.shiyuanfunc.wechat.token.tron.TronClientManager;
+import com.shiyuanfunc.wechat.token.manage.tron.TronClientManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +30,14 @@ public class WechatTokenApplicationTests {
     public void transferTrc20(){
         Object o = tronClientManager.balanceOfAddress("TYuVKUAvXesMFJLLNiGEw5kWVzwkhEEoE5");
         System.out.println(o.toString());
+    }
+
+    @Test
+    public void generatorTronAddress(){
+
+        Long userId = 123L;
+        String address = tronClientManager.generatorAddress(userId);
+        System.out.println(address);
     }
 
 }

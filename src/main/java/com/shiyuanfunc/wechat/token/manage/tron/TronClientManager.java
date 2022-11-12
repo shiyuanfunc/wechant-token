@@ -1,7 +1,7 @@
-package com.shiyuanfunc.wechat.token.tron;
+package com.shiyuanfunc.wechat.token.manage.tron;
 
-import com.shiyuanfunc.wechat.token.domain.tron.TronAccountInfo;
 import com.shiyuanfunc.wechat.token.manage.ElasticSearchManager;
+import com.shiyuanfunc.wechat.token.service.local.UserBlockAddressService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,6 @@ import org.tron.trident.core.ApiWrapper;
 import org.tron.trident.core.contract.Contract;
 import org.tron.trident.core.contract.Trc20Contract;
 import org.tron.trident.core.exceptions.IllegalException;
-import org.tron.trident.core.key.KeyPair;
 import org.tron.trident.core.transaction.TransactionBuilder;
 import org.tron.trident.proto.Chain;
 import org.tron.trident.proto.Response;
@@ -30,26 +29,15 @@ import java.math.BigInteger;
 public class TronClientManager {
 
     private final ElasticSearchManager elasticSearchManager;
+    private final UserBlockAddressService userBlockAddressService;
 
     /**
-     * 生成tron帐号
+     * 为用户生成tron 地址
+     * @param userId
      * @return
      */
-    public String generateAddress(String userId) {
-        KeyPair keyPair = KeyPair.generate();
-        String privateKey = keyPair.toPrivateKey();
-        String publicKey = keyPair.toPublicKey();
-        String address = keyPair.toBase58CheckAddress();
-        log.info(" {} {} {}", privateKey, publicKey, address);
-
-        TronAccountInfo tronAccountInfo = TronAccountInfo.builder()
-                .privateKey(privateKey)
-                .publicKey(publicKey)
-                .tronAddress(address)
-                .userId(userId)
-                .build();
-        elasticSearchManager.save(tronAccountInfo, TronAccountInfo.TRON_ACCOUNT_INDEX);
-        return address;
+    public String generatorAddress(Long userId){
+        return userBlockAddressService.generateAddress(userId);
     }
 
 

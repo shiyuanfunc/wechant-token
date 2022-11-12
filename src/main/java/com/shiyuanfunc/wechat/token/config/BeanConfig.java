@@ -7,6 +7,7 @@ import co.elastic.clients.transport.rest_client.RestClientTransport;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -29,12 +30,14 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 /**
  * @Author MUSI
  * @Date 2022/7/17 10:27 PM
  * @Description
  * @Version
  **/
+@Slf4j
 @Data
 @Configuration
 public class BeanConfig {
@@ -57,7 +60,7 @@ public class BeanConfig {
     @Bean
     public ElasticsearchClient elasticsearchClient(){
 
-        System.err.println(JSON.toJSONString(elasticsearchRestClientProperties));
+        log.info("elasticsearch properties :{}", JSON.toJSONString(elasticsearchRestClientProperties));
         if (CollectionUtils.isEmpty(elasticsearchRestClientProperties.getUris())){
             throw new RuntimeException("初始化失败 es地址有空");
         }
