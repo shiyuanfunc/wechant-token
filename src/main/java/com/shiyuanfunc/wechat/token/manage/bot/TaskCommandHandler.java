@@ -46,7 +46,7 @@ public class TaskCommandHandler implements BotCommandHandler{
         if (!StringUtils.equalsIgnoreCase(commandEnum.getCommand(), this.command())){
             return Collections.emptyList();
         }
-        String childCommand = commandMsg.replaceFirst(this.command(), StringUtils.EMPTY);
+        String childCommand = commandMsg.replaceFirst(this.command(), StringUtils.EMPTY).trim();
         if (StringUtils.equalsIgnoreCase(childCommand, "start")){
             crawlerManager.startTask();
             return Collections.singletonList("start task done");
