@@ -53,6 +53,7 @@ public class ElasticSearchManager {
     }
 
     public <T> List<T> queryData(String indexName, Class<T> clz, String text, Integer from, Integer size) {
+        log.info("query data text :{} pageNo:{} pageSize:{}", text, from, size);
         try {
             SearchResponse<T> searchResponse = elasticsearchClient.search(
                     s -> s.index(indexName)

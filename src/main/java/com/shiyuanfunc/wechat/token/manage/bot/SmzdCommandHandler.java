@@ -49,7 +49,16 @@ public class SmzdCommandHandler implements BotCommandHandler{
         }
         String queryText = commandMsg.replaceFirst(this.command(), StringUtils.EMPTY);
 
-        List<RecommendInfo> recommendInfos = elasticSearchManager.queryData("recommend_info", RecommendInfo.class, queryText, 1, 30);
+        int pageNo = 1;
+        int pageSize = 10;
+        String[] split = StringUtils.split(queryText, StringUtils.SPACE);
+        if (split.length > 1){
+            pageNo = Integer.parseInt(split[1]);
+        }
+        if (split.length > 2){
+            pageSize = Integer.parseInt(split[2]);
+        }
+        List<RecommendInfo> recommendInfos = elasticSearchManager.queryData("recommend_info", RecommendInfo.class, queryText, pageNo, pageSize);
         return recommendInfos.stream()
                 .map(Objects::toString)
                 .collect(Collectors.toList());

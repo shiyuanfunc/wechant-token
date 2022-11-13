@@ -2,6 +2,7 @@ package com.shiyuanfunc.wechat.token.constant;
 
 import com.shiyuanfunc.wechat.token.manage.bot.BotCommandHandler;
 import com.shiyuanfunc.wechat.token.manage.bot.SmzdCommandHandler;
+import com.shiyuanfunc.wechat.token.manage.bot.TaskCommandHandler;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +26,9 @@ public enum CommandEnum {
 
     // 查询ES 数据
     QUERY_TEXT("query", "查询ES 数据", SmzdCommandHandler.class),
+
+    // 任务处理器
+    TASK_JOB("task", "开启任务", TaskCommandHandler.class),
     // 无需操作
     NO_OP("no_op", "无需操作", BotCommandHandler.class);
 
