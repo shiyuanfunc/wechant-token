@@ -48,12 +48,14 @@ public class MessageManage {
 
 
     public static void initRootBotTask() {
+        log.info("init RootBotTask >>>> ");
         String token = "5065908048:AAFmdOwkDATz2lRqbTBtc8LYe-rgmxdMOrg";
         TelegramBot bot = new TelegramBot.Builder(token)
                 .okHttpClient(HttpUtil.getProxyClient())
                 .build();
         bot.setUpdatesListener(listener -> {
             for (Update update : listener) {
+                log.info("listner 》》》。》 ");
                 try {
                     if (update.message() == null) {
                         continue;
