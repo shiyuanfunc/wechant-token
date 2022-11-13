@@ -64,7 +64,7 @@ public class ElasticSearchServiceTest {
             if (randomInt < 1){
                 randomInt = 1;
             }
-            List<RecommendInfo> recommend_info = elasticSearchManager.queryData("recommend_info", RecommendInfo.class, randomInt, 100);
+            List<RecommendInfo> recommend_info = elasticSearchManager.queryData("recommend_info", RecommendInfo.class, "", randomInt, 100);
             System.out.println(recommend_info.size());
         }
     }

@@ -1,4 +1,4 @@
-package com.shiyuanfunc.wechat.token.manage;
+package com.shiyuanfunc.wechat.token.config;
 
 import com.alibaba.fastjson.JSON;
 import lombok.RequiredArgsConstructor;

@@ -65,7 +65,7 @@ public class HttpUtil {
         return client;
     }
 
-    private static OkHttpClient getProxyClient(){
+    public static OkHttpClient getProxyClient(){
         if (proxyClient == null){
             synchronized (HttpUtil.class){
                 if (proxyClient == null){

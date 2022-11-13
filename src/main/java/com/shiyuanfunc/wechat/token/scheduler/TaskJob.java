@@ -24,7 +24,7 @@ public class TaskJob {
     /**
      * 什么值得买 好价
      */
-    @Scheduled(fixedRate = 1000 * 60 * 45)
+    //@Scheduled(fixedRate = 1000 * 60 * 45)
     public void getSMZDMGoodsPrice() {
         crawlerManager.crawler_jingxuan();
     }

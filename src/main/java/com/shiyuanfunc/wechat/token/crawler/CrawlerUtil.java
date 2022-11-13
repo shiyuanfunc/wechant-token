@@ -6,7 +6,7 @@ import com.shiyuanfunc.wechat.token.domain.recommend.RecommendInfo;
 import com.shiyuanfunc.wechat.token.config.SpringContextUtil;
 import com.shiyuanfunc.wechat.token.manage.CrawlerManager;
 import com.shiyuanfunc.wechat.token.manage.ElasticSearchManager;
-import com.shiyuanfunc.wechat.token.manage.SendMessageManage;
+import com.shiyuanfunc.wechat.token.manage.MessageManage;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -42,7 +42,7 @@ public class CrawlerUtil {
 
     public static void crawlerWithUrl(String url) {
 
-        SendMessageManage.sendMessageTelegram("获取什么值得买好价推荐数据, 时间: " + LocalDateTime.now().format(CrawlerManager.formatter));
+        MessageManage.sendMessageTelegram("获取什么值得买好价推荐数据, 时间: " + LocalDateTime.now().format(CrawlerManager.formatter));
         try {
             Document document = Jsoup.connect(url).get();
             Elements elements = document.select(".feed-block");
@@ -101,7 +101,7 @@ public class CrawlerUtil {
                 });
                 if (!jsonObject.isEmpty()) {
                     log.info(jsonObject.toJSONString());
-                    SendMessageManage.sendMessageTelegram(jsonObject.toJSONString());
+                    MessageManage.sendMessageTelegram(jsonObject.toJSONString());
                     RecommendInfo recommendInfo = JSON.parseObject(jsonObject.toJSONString(), RecommendInfo.class);
                     recommendInfo.setTime(new Date());
                     save(recommendInfo);

@@ -1,6 +1,5 @@
-package com.shiyuanfunc.wechat.token.manage;
+package com.shiyuanfunc.wechat.token.controller;
 
-import com.shiyuanfunc.wechat.token.util.TestOOM;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,13 +16,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-
-    private final TestOOM testOOM;
-
-
-    @GetMapping(path = "/oom")
-    public Object test(){
-        testOOM.oonTest();
-        return "SUCCESS";
-    }
 }

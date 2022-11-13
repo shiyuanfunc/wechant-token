@@ -3,6 +3,7 @@ package com.shiyuanfunc.wechat.token.manage;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.MatchAllQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.CountResponse;
 import co.elastic.clients.elasticsearch.core.IndexRequest;
@@ -51,16 +52,11 @@ public class ElasticSearchManager {
         }
     }
 
-    public <T> List<T> queryData(String indexName, Class<T> clz, Integer from, Integer size) {
+    public <T> List<T> queryData(String indexName, Class<T> clz, String text, Integer from, Integer size) {
         try {
             SearchResponse<T> searchResponse = elasticsearchClient.search(
                     s -> s.index(indexName)
-                            .query(
-                                    t -> t.matchAll(
-                                            new MatchAllQuery.Builder()
-                                                    .build()
-                                    )
-                            )
+                            .query(t -> t.match(MatchQuery.of(m -> m.field("describe").query(text))))
                             .from(Optional.ofNullable(from).orElse(1))
                             .size(Optional.ofNullable(size).orElse(10))
                     , clz

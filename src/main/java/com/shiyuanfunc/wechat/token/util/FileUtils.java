@@ -22,7 +22,6 @@ public class FileUtils {
         File file = new File("/Users/songxiaohui/Documents/dev/workspace/sharding-demo/wechat-token/src/main/resources/SSR.txt");
         String s = IOUtils.toString(Files.newInputStream(file.toPath()), Charset.defaultCharset());
         byte[] bytes = com.alibaba.fastjson.util.IOUtils.decodeBase64(s);
-        //System.out.println(new String(bytes));
         String[] split = new String(bytes).split("\\n");
         Set<String> set = new HashSet<>();
         set.addAll(Arrays.asList(split));

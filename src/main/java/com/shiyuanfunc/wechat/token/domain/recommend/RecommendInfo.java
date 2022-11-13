@@ -1,5 +1,6 @@
 package com.shiyuanfunc.wechat.token.domain.recommend;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -36,4 +37,9 @@ public class RecommendInfo implements Serializable {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
+
+    @Override
+    public String toString(){
+        return JSONObject.toJSONString(this);
+    }
 }

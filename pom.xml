@@ -190,6 +190,12 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>1.2.14</version>
         </dependency>
+        <!-- telegram bot api  -->
+        <dependency>
+            <groupId>com.github.pengrad</groupId>
+            <artifactId>java-telegram-bot-api</artifactId>
+            <version>6.2.0</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

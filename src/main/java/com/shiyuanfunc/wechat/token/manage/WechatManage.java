@@ -2,6 +2,7 @@ package com.shiyuanfunc.wechat.token.manage;
 
 import com.alibaba.fastjson.JSONObject;
 import com.shiyuanfunc.wechat.token.config.CorpConfig;
+import com.shiyuanfunc.wechat.token.config.RedisCache;
 import com.shiyuanfunc.wechat.token.constant.UrlConstant;
 import com.shiyuanfunc.wechat.token.util.HttpUtil;
 import lombok.RequiredArgsConstructor;
