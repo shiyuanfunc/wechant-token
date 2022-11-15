@@ -43,7 +43,7 @@ public class CrawlerManager {
                 log.info("启动定时任务 >>>>>>> ");
                 CrawlerManager.this.crawler_jingxuan();
             }
-        }, 10 * 1000, 45 * 1000);
+        }, 10 * 1000, 32 * 60 * 1000);
     }
 
     /**

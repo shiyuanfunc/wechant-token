@@ -4,8 +4,15 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
+import com.pengrad.telegrambot.model.File;
+import com.pengrad.telegrambot.model.Message;
+import com.pengrad.telegrambot.model.PhotoSize;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.request.DeleteMessage;
+import com.pengrad.telegrambot.request.GetFile;
 import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.response.BaseResponse;
+import com.pengrad.telegrambot.response.GetFileResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import com.shiyuanfunc.wechat.token.config.SpringContextUtil;
 import com.shiyuanfunc.wechat.token.constant.CommandEnum;
@@ -49,7 +56,7 @@ public class MessageManage {
 
     public static void initRootBotTask() {
         log.info("init RootBotTask >>>> ");
-        String token = "5065908048:AAFmdOwkDATz2lRqbTBtc8LYe-rgmxdMOrg";
+        String token = "5666990488:AAHAz8JOONUDQ9bPzH-M0A9lam9BJXjO6ak";
         TelegramBot bot = new TelegramBot.Builder(token)
                 .okHttpClient(HttpUtil.getProxyClient())
                 .build();
@@ -59,6 +66,23 @@ public class MessageManage {
                 try {
                     if (update.message() == null) {
                         continue;
+                    }
+                    Message message = update.message();
+                    PhotoSize[] photo = message.photo();
+                    if (photo != null){
+                        for (PhotoSize photoSize : photo) {
+                            String s = photoSize.fileUniqueId();
+                            String fileId = photoSize.fileId();
+                            GetFile request = new GetFile(fileId);
+                            GetFileResponse execute = bot.execute(request);
+                            File file = execute.file();
+                            String filePath = file.filePath();
+                            String fullFilePath = bot.getFullFilePath(file);
+                            String downLink = "https://api.telegram.org/file/" + token + "/" + filePath;
+                            log.info("file_unique_id: {}, filePath:{}, fileFullPath:{}, downLink :{}", s, filePath, fullFilePath, downLink);
+                            continue;
+                        }
+                        return UpdatesListener.CONFIRMED_UPDATES_ALL;
                     }
                     if (update.message().chat() == null) {
                         continue;
@@ -106,5 +130,27 @@ public class MessageManage {
         replayMessage.replyToMessageId(messageId);
         SendResponse sendResponse = telegramBot.execute(replayMessage);
         log.info("发送消息结果 {}", JSON.toJSONString(sendResponse));
+    }
+
+    /**
+     * 删除消息
+     * @param chatId
+     * @param messageId
+     * @param telegramBot
+     */
+    public static void deleteMessage(Object chatId, Integer messageId, TelegramBot telegramBot){
+        DeleteMessage deleteMessage = new DeleteMessage(chatId, messageId);
+        BaseResponse response = telegramBot.execute(deleteMessage);
+        log.info("发送消息结果: {}", JSON.toJSONString(response));
+    }
+
+
+    /**
+     * 校验消息内容是否合法
+     * @param messageText
+     * @return true 合法
+     */
+    public static boolean checkMessageIsValid(String messageText){
+        return false;
     }
 }

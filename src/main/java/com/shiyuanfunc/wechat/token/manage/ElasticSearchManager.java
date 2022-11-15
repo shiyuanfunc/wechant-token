@@ -1,14 +1,13 @@
 package com.shiyuanfunc.wechat.token.manage;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.MatchAllQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.CountResponse;
 import co.elastic.clients.elasticsearch.core.IndexRequest;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
-import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
@@ -58,6 +57,7 @@ public class ElasticSearchManager {
             SearchResponse<T> searchResponse = elasticsearchClient.search(
                     s -> s.index(indexName)
                             .query(t -> t.match(MatchQuery.of(m -> m.field("describe").query(text))))
+                            .sort(sort -> sort.field(f -> f.field("time").order(SortOrder.Desc)))
                             .from(Optional.ofNullable(from).orElse(1))
                             .size(Optional.ofNullable(size).orElse(10))
                     , clz
