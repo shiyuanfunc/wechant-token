@@ -57,16 +57,8 @@ public class ElasticSearchServiceTest {
 
     @Test
     public void searchAll(){
-
-        Random random = new Random();
-        for (int i = 0; i < 100; i++) {
-            int randomInt = random.nextInt(5);
-            if (randomInt < 1){
-                randomInt = 1;
-            }
-            List<RecommendInfo> recommend_info = elasticSearchManager.queryData("recommend_info", RecommendInfo.class, "", randomInt, 100);
-            System.out.println(recommend_info.size());
-        }
+        List<RecommendInfo> recommend_info =
+                elasticSearchManager.queryData("recommend_info", RecommendInfo.class, "", 1, 100);
     }
 
     @Test
@@ -109,4 +101,21 @@ public class ElasticSearchServiceTest {
 
         }
     }
+    String indexName = "recommend_info";
+    @Test
+    public void maxWindowResultTest(){
+        Integer indexMaxWindowResult = elasticSearchManager.getIndexMaxWindowResult(indexName);
+        System.out.println(indexMaxWindowResult);
+    }
+
+    @Test
+    public void setMaxWindowResult(){
+        try {
+            elasticsearchClient.indices()
+                    .putSettings(s -> s.index(indexName).settings( setting -> setting.maxResultWindow(1000_0000)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

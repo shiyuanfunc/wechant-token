@@ -2,6 +2,8 @@ package com.shiyuanfunc.wechat.token.domain.recommend;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
@@ -16,6 +18,7 @@ import java.util.Date;
  * @Version
  **/
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RecommendInfo implements Serializable {
 
     @Id

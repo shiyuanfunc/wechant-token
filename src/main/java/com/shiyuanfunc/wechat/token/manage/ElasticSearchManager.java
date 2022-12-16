@@ -11,6 +11,8 @@ import co.elastic.clients.elasticsearch.core.IndexResponse;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
+import co.elastic.clients.elasticsearch.indices.GetIndicesSettingsResponse;
+import co.elastic.clients.elasticsearch.indices.IndexState;
 import co.elastic.clients.util.ObjectBuilder;
 import com.alibaba.fastjson.JSON;
 import com.shiyuanfunc.wechat.token.domain.Page;
@@ -56,12 +58,16 @@ public class ElasticSearchManager {
         try {
             SearchResponse<T> searchResponse = elasticsearchClient.search(
                     s -> s.index(indexName)
-                            .query(t -> t.match(MatchQuery.of(m -> m.field("describe").query(text))))
-                            .sort(sort -> sort.field(f -> f.field("time").order(SortOrder.Desc)))
+                            //.query(t -> t.match(MatchQuery.of(m -> m.field("describe").query(text))))
+                            .trackTotalHits(t -> t.enabled(Boolean.TRUE))
+                            .sort(sort -> sort.field(f -> f.field("time")
+                                    .order(SortOrder.Desc)
+                                    .missing("_first")))
                             .from(Optional.ofNullable(from).orElse(1))
                             .size(Optional.ofNullable(size).orElse(10))
                     , clz
             );
+            System.out.println(JSON.toJSONString(searchResponse));
             CountResponse count = elasticsearchClient.count(t -> t.index(indexName));
             log.info("count request :{}", count.count());
             HitsMetadata<T> metadataHits = searchResponse.hits();
@@ -103,4 +109,25 @@ public class ElasticSearchManager {
         }
         return Page.emptyPage();
     }
+
+    public Integer getIndexMaxWindowResult(String indexName){
+//        try {
+//            elasticsearchClient.indices().putSettings(s -> s.index("").settings(indexSet -> indexSet.maxResultWindow(100000) ))
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+
+        try {
+            GetIndicesSettingsResponse response = elasticsearchClient.indices()
+                    .getSettings(s -> s.index(indexName));
+            if (!response.result().isEmpty()){
+                IndexState indexState = response.get(indexName);
+                return indexState.settings().index().maxResultWindow();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
 }

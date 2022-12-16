@@ -14,7 +14,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.31.65:43306/block_chain?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://192.168.31.130:43306/block_chain?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: mysqlroot
     druid:
@@ -32,6 +32,6 @@ spring:
         time-between-eviction-runs: -1
   elasticsearch:
     rest:
-      uris: http://192.168.31.65:9200
+      uris: http://192.168.31.130:9200
 mybatis:
   mapper-locations: mapper/**/*.xml
