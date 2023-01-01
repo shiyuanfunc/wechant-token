@@ -10,18 +10,15 @@ import co.elastic.clients.elasticsearch.core.IndexRequest;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import com.alibaba.fastjson.JSON;
-import com.shiyuanfunc.wechat.token.domain.recommend.RecommendInfo;
+import com.shiyuanfunc.wechat.token.domain.es.recommend.RecommendInfo;
 import com.shiyuanfunc.wechat.token.manage.ElasticSearchManager;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 /**

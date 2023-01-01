@@ -130,4 +130,8 @@ public class ElasticSearchManager {
         return null;
     }
 
+
+    public void geoSearch(){
+    }
+
 }

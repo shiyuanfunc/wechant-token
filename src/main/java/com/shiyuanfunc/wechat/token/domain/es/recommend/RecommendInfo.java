@@ -1,4 +1,4 @@
-package com.shiyuanfunc.wechat.token.domain.recommend;
+package com.shiyuanfunc.wechat.token.domain.es.recommend;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonFormat;

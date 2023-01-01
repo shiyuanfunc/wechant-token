@@ -1,7 +1,7 @@
 package com.shiyuanfunc.wechat.token.manage.bot;
 
 import com.shiyuanfunc.wechat.token.constant.CommandEnum;
-import com.shiyuanfunc.wechat.token.domain.recommend.RecommendInfo;
+import com.shiyuanfunc.wechat.token.domain.es.recommend.RecommendInfo;
 import com.shiyuanfunc.wechat.token.manage.ElasticSearchManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

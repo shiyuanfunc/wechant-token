@@ -2,7 +2,7 @@ package com.shiyuanfunc.wechat.token.crawler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.shiyuanfunc.wechat.token.domain.recommend.RecommendInfo;
+import com.shiyuanfunc.wechat.token.domain.es.recommend.RecommendInfo;
 import com.shiyuanfunc.wechat.token.config.SpringContextUtil;
 import com.shiyuanfunc.wechat.token.manage.CrawlerManager;
 import com.shiyuanfunc.wechat.token.manage.ElasticSearchManager;
