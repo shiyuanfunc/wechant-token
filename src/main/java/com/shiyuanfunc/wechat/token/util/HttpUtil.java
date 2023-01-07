@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -37,14 +38,14 @@ public class HttpUtil {
         initClient();
     }
 
-    private static void initClient(){
+    private static void initClient() {
         client = new OkHttpClient.Builder()
                 .callTimeout(Duration.ofSeconds(10))
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
     }
 
-    private static void initProxyClient(){
+    private static void initProxyClient() {
         InetSocketAddress inetSocketAddress = new InetSocketAddress("127.0.0.1", 1087);
         Proxy proxy = new Proxy(Proxy.Type.HTTP, inetSocketAddress);
         proxyClient = new OkHttpClient.Builder()
@@ -54,10 +55,10 @@ public class HttpUtil {
                 .build();
     }
 
-    private static OkHttpClient getClient(){
-        if (client == null){
-            synchronized (HttpUtil.class){
-                if (client == null){
+    private static OkHttpClient getClient() {
+        if (client == null) {
+            synchronized (HttpUtil.class) {
+                if (client == null) {
                     initClient();
                 }
             }
@@ -65,10 +66,10 @@ public class HttpUtil {
         return client;
     }
 
-    public static OkHttpClient getProxyClient(){
-        if (proxyClient == null){
-            synchronized (HttpUtil.class){
-                if (proxyClient == null){
+    public static OkHttpClient getProxyClient() {
+        if (proxyClient == null) {
+            synchronized (HttpUtil.class) {
+                if (proxyClient == null) {
                     initProxyClient();
                 }
             }
@@ -84,7 +85,7 @@ public class HttpUtil {
         return doGet(url, clz, true);
     }
 
-    private static <T> T doGet(String url, Class<T> clz, boolean useProxy){
+    private static <T> T doGet(String url, Class<T> clz, boolean useProxy) {
         OkHttpClient httpClient = useProxy ? getProxyClient() : getClient();
         try {
             Request request = new Request.Builder()
@@ -93,9 +94,9 @@ public class HttpUtil {
                     .build();
             Response response = httpClient.newCall(request).execute();
             ResponseBody responseBody = response.body();
-            if (responseBody != null){
+            if (responseBody != null) {
                 String result = responseBody.string();
-                if (!StringUtils.isEmpty(request)){
+                if (!StringUtils.isEmpty(request)) {
                     return JSON.parseObject(result, clz);
                 }
             }
@@ -106,26 +107,42 @@ public class HttpUtil {
     }
 
 
-    public static <T> T post(String url, Map<String, String> params, Class<T> clz){
-        return doPostForm(url, params, clz, false);
+    public static <T> T post(String url, Map<String, String> params, Class<T> clz) {
+        return doRequestForm(url, params, clz, null, false, "POST");
     }
 
-    public static <T> T proxyPost(String url, Map<String, String> params, Class<T> clz){
-        return doPostForm(url, params, clz, true);
+    public static <T> T proxyPost(String url, Map<String, String> params, Class<T> clz) {
+        return doRequestForm(url, params, clz, null, true, "POST");
     }
 
-    private static <T> T doPostForm(String url, Map<String, String> params, Class<T> clz, boolean useProxy){
-        try{
+    public static <T> T deleteRequest(String url,
+                                      Map<String, String> headerMap,
+                                      Map<String, String> params,
+                                      Class<T> clz) {
+        return doRequestForm(url, params, clz, headerMap, false, "DELETE");
+    }
+
+    private static <T> T doRequestForm(String url, Map<String, String> params,
+                                       Class<T> clz, Map<String, String> headerMap,
+                                       boolean useProxy,
+                                       String requestMethod) {
+        try {
             FormBody.Builder builder = new FormBody.Builder();
-            if (!params.isEmpty()){
+            if (params != null && !params.isEmpty()) {
                 for (Map.Entry<String, String> entry : params.entrySet()) {
                     builder.add(entry.getKey(), entry.getValue());
                 }
             }
             FormBody formBody = builder.build();
+
+            Headers.Builder headerBuilder = new Headers.Builder();
+            if (headerMap != null && !headerMap.isEmpty()) {
+                headerMap.forEach(headerBuilder::add);
+            }
             Request request = new Request.Builder()
                     .url(url)
-                    .post(formBody)
+                    .headers(headerBuilder.build())
+                    .method(requestMethod, formBody)
                     .build();
             OkHttpClient executeClient = useProxy ? getProxyClient() : getClient();
             Response response = executeClient.newCall(request).execute();
@@ -133,22 +150,76 @@ public class HttpUtil {
             if (body != null) {
                 return JSONObject.parseObject(body.string(), clz);
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             log.error("doPost request error", ex);
         }
         return null;
     }
 
-    private static <T> T doPostJson(String url, String paramsJson, Class<T> clz, boolean useProxy){
-        OkHttpClient httpClient = useProxy ? getProxyClient() : getClient();
-        try{
+    /**
+     * 普通请求
+     *
+     * @param url        请求地址
+     * @param headerMap  请求header
+     * @param paramsJson 参数json 字符串
+     * @param clz        返回对象
+     * @param <T>
+     * @return
+     */
+    public static <T> T postJson(String url, Map<String, String> headerMap, String paramsJson, Class<T> clz) {
+        return doRequestJson(url, headerMap, paramsJson, clz, false, "POST");
+    }
+
+    public static <T> T putJson(String url, Map<String, String> headerMap, String paramsJson, Class<T> clz) {
+        return doRequestJson(url, headerMap, paramsJson, clz, false, "PUT");
+    }
+
+    public static <T> T deleteJson(String url, Map<String, String> headerMap, String paramsJson, Class<T> clz) {
+        return doRequestJson(url, headerMap, paramsJson, clz, false, "PUT");
+    }
+
+    /**
+     * 使用代理请求
+     *
+     * @param url
+     * @param headerMap
+     * @param paramsJson
+     * @param clz
+     * @param <T>
+     * @return
+     */
+    public static <T> T proxyPostJson(String url, Map<String, String> headerMap, String paramsJson, Class<T> clz) {
+        return doRequestJson(url, headerMap, paramsJson, clz, true, "POST");
+    }
+
+
+    private static <T> T doRequestJson(String url,
+                                       Map<String, String> headerMap,
+                                       String paramsJson, Class<T> clz,
+                                       boolean useProxy,
+                                       String requestMethod) {
+        try {
+            OkHttpClient executeClient = useProxy ? getProxyClient() : getClient();
             RequestBody requestBody = RequestBody.create(paramsJson, MEDIA_JSON_TYPE);
+
+            Headers.Builder headerBuilder = new Headers.Builder();
+            if (headerMap != null && !headerMap.isEmpty()) {
+                headerMap.forEach(headerBuilder::add);
+            }
+
             Request request = new Request.Builder()
                     .url(url)
-                    .post(requestBody)
+                    .headers(headerBuilder.build())
+                    .method(requestMethod, requestBody)
                     .build();
-        }catch (Exception ex){
-
+            Response response = executeClient.newCall(request).execute();
+            log.info("{} 请求返回: {}", url, JSON.toJSONString(response));
+            ResponseBody responseBody = response.body();
+            if (responseBody != null && response.isSuccessful()) {
+                return JSON.parseObject(responseBody.string(), clz);
+            }
+        } catch (Exception ex) {
+            log.error("调用{}异常,参数:{}", url, paramsJson, ex);
         }
         return null;
     }

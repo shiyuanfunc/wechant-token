@@ -13,6 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.3.7.RELEASE</spring-boot.version>
+        <common.api>1.0.0-SNAPSHOT</common.api>
     </properties>
 
     <dependencies>
@@ -195,6 +196,13 @@
             <groupId>com.github.pengrad</groupId>
             <artifactId>java-telegram-bot-api</artifactId>
             <version>6.2.0</version>
+        </dependency>
+
+        <!-- base common api -->
+        <dependency>
+            <groupId>com.shiyuanfunc</groupId>
+            <artifactId>common-api</artifactId>
+            <version>${common.api}</version>
         </dependency>
     </dependencies>
 

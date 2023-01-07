@@ -32,6 +32,12 @@ spring:
         time-between-eviction-runs: -1
   elasticsearch:
     rest:
-      uris: http://192.168.31.130:9200
+      uris: http://runan.life:9200
+  compre:
+    face:
+      root-domain: http://192.168.31.65:8000
+      service-api-key-map:
+        subject: 942f1510-78a0-4b4d-ab39-0d03dd333a72
+
 mybatis:
   mapper-locations: mapper/**/*.xml
